@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using task_management_api.Config;
 
 var builder = WebApplication.CreateBuilder(args);
