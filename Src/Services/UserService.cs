@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using task_management_api.Config;
+using task_management_api.Dtos.Requests;
 using task_management_api.Modals;
 namespace task_management_api.Services;
 
@@ -11,10 +12,32 @@ public class UserService
     {
         _context = context;
     }
+    
+    // Get All
+    public async Task<List<User>> GetUsers()
+    {
+        return await _context.Users.ToListAsync();
+    }
 
     // Create
-    public async Task<User> CreateUser(User user)
+    public async Task<User> CreateUser(CreateUserDto createUserDto)
     {
+        var isUsernameTaken = await _context.Users.AnyAsync(u => u.Username == createUserDto.Username);
+        if (isUsernameTaken)
+        {
+            throw new Exception("Username is already taken");
+        }
+        var isEmailTaken = await _context.Users.AnyAsync(u => u.Email == createUserDto.Email);
+        if (isEmailTaken)
+        {
+            throw new Exception("Email is already taken");
+        }
+        var user = new User
+        {
+            Username = createUserDto.Username,
+            Email = createUserDto.Email,
+            Password = BCrypt.Net.BCrypt.HashPassword(createUserDto.Password)
+        };
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
         return user;

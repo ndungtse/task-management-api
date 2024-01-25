@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using task_management_api.Dtos.Requests;
 using task_management_api.Dtos.Responses;
 using task_management_api.Modals;
 using task_management_api.Services;
@@ -7,7 +9,7 @@ using task_management_api.Services;
 namespace task_management_api.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/users")]
 public class UserController : ControllerBase
 {
     private readonly UserService _userService;
@@ -17,8 +19,22 @@ public class UserController : ControllerBase
         _userService = userService;
     }
     
+    [HttpGet]
+    public async Task<IActionResult> GetUsers()
+    {
+        try
+        {
+            var users = await _userService.GetUsers();
+            return Ok(new Response<List<User>>(users, "Users retrieved successfully", true));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new Response<string>(ex.Message, false));
+        }
+    }
+    
     [HttpPost]
-    public async Task<IActionResult> CreateUser(User user)
+    public async Task<IActionResult> CreateUser([FromBody] CreateUserDto user)
     {
         try
         {

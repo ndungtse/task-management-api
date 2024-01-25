@@ -13,13 +13,19 @@ public class User
     [Required]
     public string Username { get; set; }
 
-    [Required]
-    [EmailAddress]
-    public string Email { get; set; }
+    [Required] 
+    [EmailAddress] 
+    [MaxLength(256)]
+    public string Email { get; set; } = null!;
 
     [Required]
-    public string Password { get; set; } 
+    public string Password { get; set; } = null!; 
     public List<TeamMember> TeamMembers { get; set; }
     public List<ToDo> AssignedTasks { get; set; }
     public List<Role> Roles { get; set; }
+    
+    public override string ToString()
+    {
+        return $"User: {Username}, {Email}";
+    }
 }
