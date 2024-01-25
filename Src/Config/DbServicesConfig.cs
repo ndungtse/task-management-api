@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using task_management_api.Services;
 
 namespace task_management_api.Config;
 
 public static class DbServicesConfig
 {
-    public static void configure(WebApplicationBuilder builder)
+    public static void Configure(WebApplicationBuilder builder)
     {
         // Add DbContext
         builder.Services.AddEntityFrameworkNpgsql().AddDbContext<TaskDbContext>(opt =>
@@ -17,5 +18,8 @@ public static class DbServicesConfig
 
             dbContext.Database.Migrate();
         }
+        
+        // Add services
+        builder.Services.AddScoped<UserService>();
     }
 }

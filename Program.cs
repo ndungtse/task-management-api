@@ -7,7 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // configure database
-DbServicesConfig.configure(builder);
+DbServicesConfig.Configure(builder);
+builder.Services.AddControllers();
 var app = builder.Build();
 
 app.UseSwagger();

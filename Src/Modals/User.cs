@@ -20,6 +20,6 @@ public class User
     [Required]
     public string Password { get; set; } 
     public List<TeamMember> TeamMembers { get; set; }
-    public List<Task> AssignedTasks { get; set; }
+    public List<ToDo> AssignedTasks { get; set; }
     public List<Role> Roles { get; set; }
 }

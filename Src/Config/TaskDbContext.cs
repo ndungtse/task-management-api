@@ -1,5 +1,6 @@
 using task_management_api.Modals;
-using Task = task_management_api.Modals.Task; // To avoid conflict with System.Threading.Tasks.Task
+
+// To avoid conflict with System.Threading.Tasks.Task
 namespace task_management_api.Config;
 
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,7 @@ public class TaskDbContext: DbContext
     }
     
     // DbSet for each entity
-    public DbSet<Task> Tasks { get; set; }
+    public DbSet<ToDo> Tasks { get; set; }
     public DbSet<Project> Projects { get; set; }
     public DbSet<Team> Teams { get; set; }
     public DbSet<User> Users { get; set; }
@@ -72,7 +73,7 @@ public class TaskDbContext: DbContext
             .OnDelete(DeleteBehavior.Cascade);
         
         // Many-to-One relationship between User and Task (AssignedTo)
-        modelBuilder.Entity<Task>()
+        modelBuilder.Entity<ToDo>()
             .HasOne(t => t.Assignee)
             .WithMany(u => u.AssignedTasks)
             .HasForeignKey(t => t.AssignedTo)

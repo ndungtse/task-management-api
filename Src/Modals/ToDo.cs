@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace task_management_api.Modals;
 
-public class Task
+public class ToDo
 {
     [Key]
     public Guid Id { get; set; }
@@ -18,4 +18,5 @@ public class Task
     // Navigation property for assigned user
     public User Assignee { get; set; }
     public Project Project { get; set; }
+    
 }

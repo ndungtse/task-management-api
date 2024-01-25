@@ -17,6 +17,6 @@ public class Project
     public Guid TeamId { get; set; } // Foreign key
 
     // Navigation property for tasks
-    public List<Task> Tasks { get; set; }
+    public List<ToDo> Tasks { get; set; }
     public Team Team { get; set; }
 }
