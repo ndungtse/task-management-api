@@ -62,13 +62,12 @@ public class UserController : ControllerBase
     }
     
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser(Guid id, User user)
+    public async Task<IActionResult> UpdateUser(Guid id, CreateUserDto user)
     {
         try
         {
-            user.Id = id;
-            await _userService.UpdateUser(user);
-            return Ok(new Response<User>(user, "User updated successfully", true));
+           var updatedUser = await _userService.UpdateUser(user, id);
+            return Ok(new Response<User>(updatedUser, "User updated successfully", true));
         }
         catch (Exception ex)
         {

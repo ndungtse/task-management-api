@@ -64,8 +64,8 @@ public class TeamController: ControllerBase
     {
         try
         {
-            await _teamService.UpdateTeam(team, id);
-            return Ok(new Response<string>("Team updated successfully", true));
+           var updateTeam = await _teamService.UpdateTeam(team, id);
+            return Ok(new Response<Team>(updateTeam, "Team updated successfully", true));
         }
         catch (Exception ex)
         {

@@ -16,8 +16,8 @@ public class Role: BaseModel
     // Many-to-Many relationship with User
     public List<User> Users { get; set; } = new List<User>();
 
-    public Role(string roleName)
-    {
-        RoleName = roleName;
-    }
+    // public Role(string roleName)
+    // {
+    //     RoleName = roleName;
+    // }
 }

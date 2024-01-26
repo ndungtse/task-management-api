@@ -47,7 +47,7 @@ public class TeamService
         return team;
     }
     
-    public async Task UpdateTeam(CreateTeamDto team, Guid id)
+    public async Task<Team> UpdateTeam(CreateTeamDto team, Guid id)
     {
         var teamToUpdate = await _taskDb.Teams.FindAsync(id);
         if (teamToUpdate == null)
@@ -57,6 +57,7 @@ public class TeamService
         teamToUpdate.Name = team.Name;
         teamToUpdate.Description = team.Description;
         await _taskDb.SaveChangesAsync();
+        return teamToUpdate;
     }
     
     public async Task DeleteTeam(Guid id)

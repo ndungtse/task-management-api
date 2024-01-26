@@ -1,3 +1,4 @@
+using Swashbuckle.AspNetCore.SwaggerUI;
 using task_management_api.Config;
 using task_management_api.Middlewares;
 
@@ -14,7 +15,10 @@ builder.Services.AddScoped<JwtAuthenticationMiddleware>();
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(options =>
+{
+    options.DocExpansion(DocExpansion.None);
+});
 app.UseAuthorization();
 app.UseAuthentication();
 // app.UseRouting();

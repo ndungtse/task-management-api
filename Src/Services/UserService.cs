@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using task_management_api.Config;
 using task_management_api.Dtos.Requests;
 using task_management_api.Modals;
+
 namespace task_management_api.Services;
 
 public class UserService
@@ -12,7 +13,7 @@ public class UserService
     {
         _context = context;
     }
-    
+
     // Get All
     public async Task<List<User>> GetUsers()
     {
@@ -27,11 +28,13 @@ public class UserService
         {
             throw new Exception("Username is already taken");
         }
+
         var isEmailTaken = await _context.Users.AnyAsync(u => u.Email == createUserDto.Email);
         if (isEmailTaken)
         {
             throw new Exception("Email is already taken");
         }
+
         var user = new User
         {
             Username = createUserDto.Username,
@@ -50,10 +53,18 @@ public class UserService
     }
 
     // Update
-    public async Task UpdateUser(User user)
+    public async Task<User> UpdateUser(CreateUserDto user, Guid id)
     {
-        _context.Entry(user).State = EntityState.Modified;
+        var userToUpdate = await _context.Users.FindAsync(id);
+        if (userToUpdate == null)
+        {
+            throw new Exception("User not found");
+        }
+
+        userToUpdate.Username = user.Username;
+        userToUpdate.Email = user.Email;
         await _context.SaveChangesAsync();
+        return userToUpdate;
     }
 
     // Delete

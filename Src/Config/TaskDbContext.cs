@@ -17,6 +17,7 @@ public class TaskDbContext: DbContext
     public DbSet<Team> Teams { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<TeamMember> TeamMembers { get; set; }
+    public DbSet<Role> Roles { get; set; }
     
     // Many-to-Many relationship between User and Role
     protected override void OnModelCreating(ModelBuilder modelBuilder)

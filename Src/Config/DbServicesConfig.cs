@@ -22,5 +22,9 @@ public static class DbServicesConfig
         // Add services
         builder.Services.AddScoped<UserService>();
         builder.Services.AddScoped<TeamService>();
+        builder.Services.AddScoped<ProjectService>();
+        builder.Services.AddScoped<TeamMemberService>();
+        builder.Services.AddScoped<TodoService>();
+        builder.Services.AddScoped<RoleService>();
     }
 }

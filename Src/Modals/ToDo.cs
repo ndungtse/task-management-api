@@ -18,5 +18,6 @@ public class ToDo: BaseModel
     // Navigation property for assigned user
     public User Assignee { get; set; }
     public Project Project { get; set; }
+    public User CreatedBy { get; set; }
     
 }
