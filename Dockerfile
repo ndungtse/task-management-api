@@ -12,9 +12,9 @@ RUN dotnet restore "task-management-api.csproj"
 COPY . .
 WORKDIR "/src/"
 # Add EF Core CLI tools and migrate the database
-RUN dotnet tool install --global dotnet-ef
-ENV PATH="${PATH}:/root/.dotnet/tools"
-RUN dotnet ef database update
+#RUN dotnet tool install --global dotnet-ef
+#ENV PATH="${PATH}:/root/.dotnet/tools"
+#RUN dotnet ef database update
 # Build the app
 RUN dotnet build "task-management-api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 # Publish the app
