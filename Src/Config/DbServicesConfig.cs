@@ -8,9 +8,12 @@ public static class DbServicesConfig
     public static void Configure(WebApplicationBuilder builder)
     {
         // Add DbContext
+        var connectionString = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development"
+            ? builder.Configuration.GetConnectionString("DefaultConnection")
+            : Environment.GetEnvironmentVariable("DATABASE_URL");
+        Console.WriteLine($"DbServicesConfig: DbContext added {connectionString}");
         builder.Services.AddEntityFrameworkNpgsql().AddDbContext<TaskDbContext>(opt =>
-            opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+            opt.UseNpgsql(connectionString));
         // Add migration and update logic
         using (var serviceScope = builder.Services.BuildServiceProvider().CreateScope())
         {
@@ -18,7 +21,7 @@ public static class DbServicesConfig
 
             dbContext.Database.Migrate();
         }
-        
+
         // Add services
         builder.Services.AddScoped<UserService>();
         builder.Services.AddScoped<TeamService>();
