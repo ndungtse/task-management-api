@@ -21,5 +21,6 @@ public static class DbServicesConfig
         
         // Add services
         builder.Services.AddScoped<UserService>();
+        builder.Services.AddScoped<TeamService>();
     }
 }

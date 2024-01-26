@@ -5,7 +5,7 @@ namespace task_management_api.Modals;
 
 [Index(nameof(Username), IsUnique = true)]
 [Index(nameof(Email), IsUnique = true)]
-public class User
+public class User: BaseModel
 {
     [Key]
     public Guid Id { get; set; }

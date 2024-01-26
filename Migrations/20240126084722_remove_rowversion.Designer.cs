@@ -13,8 +13,8 @@ using task_management_api.Config;
 namespace task_management_api.Migrations
 {
     [DbContext(typeof(TaskDbContext))]
-    [Migration("20240124184631_update_col_names")]
-    partial class update_col_names
+    [Migration("20240126084722_remove_rowversion")]
+    partial class remove_rowversion
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,10 @@ namespace task_management_api.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("createdAt");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text")
@@ -72,6 +76,10 @@ namespace task_management_api.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("teamId");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updatedAt");
+
                     b.HasKey("Id");
 
                     b.HasIndex("TeamId");
@@ -91,17 +99,98 @@ namespace task_management_api.Migrations
                         .HasColumnType("text")
                         .HasColumnName("code");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("createdAt");
+
                     b.Property<string>("RoleName")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("roleName");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updatedAt");
 
                     b.HasKey("Id");
 
                     b.ToTable("Role");
                 });
 
-            modelBuilder.Entity("task_management_api.Modals.Task", b =>
+            modelBuilder.Entity("task_management_api.Modals.Team", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("createdAt");
+
+                    b.Property<Guid>("CreatedById")
+                        .HasColumnType("uuid")
+                        .HasColumnName("createdById");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updatedAt");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.ToTable("Teams");
+                });
+
+            modelBuilder.Entity("task_management_api.Modals.TeamMember", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("createdAt");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("role");
+
+                    b.Property<Guid>("TeamId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("teamId");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updatedAt");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("userId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeamId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TeamMembers");
+                });
+
+            modelBuilder.Entity("task_management_api.Modals.ToDo", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -111,6 +200,10 @@ namespace task_management_api.Migrations
                     b.Property<Guid>("AssignedTo")
                         .HasColumnType("uuid")
                         .HasColumnName("assignedTo");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("createdAt");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -141,6 +234,10 @@ namespace task_management_api.Migrations
                         .HasColumnType("text")
                         .HasColumnName("title");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updatedAt");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AssignedTo");
@@ -150,61 +247,6 @@ namespace task_management_api.Migrations
                     b.ToTable("Tasks");
                 });
 
-            modelBuilder.Entity("task_management_api.Modals.Team", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uuid")
-                        .HasColumnName("createdBy");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("description");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Teams");
-                });
-
-            modelBuilder.Entity("task_management_api.Modals.TeamMember", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("role");
-
-                    b.Property<Guid>("TeamId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("teamId");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("userId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TeamId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("TeamMembers");
-                });
-
             modelBuilder.Entity("task_management_api.Modals.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -212,15 +254,24 @@ namespace task_management_api.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("createdAt");
+
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
                         .HasColumnName("email");
 
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("password");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updatedAt");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -264,23 +315,15 @@ namespace task_management_api.Migrations
                     b.Navigation("Team");
                 });
 
-            modelBuilder.Entity("task_management_api.Modals.Task", b =>
+            modelBuilder.Entity("task_management_api.Modals.Team", b =>
                 {
-                    b.HasOne("task_management_api.Modals.User", "Assignee")
-                        .WithMany("AssignedTasks")
-                        .HasForeignKey("AssignedTo")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("task_management_api.Modals.Project", "Project")
-                        .WithMany("Tasks")
-                        .HasForeignKey("ProjectId")
+                    b.HasOne("task_management_api.Modals.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Assignee");
-
-                    b.Navigation("Project");
+                    b.Navigation("CreatedBy");
                 });
 
             modelBuilder.Entity("task_management_api.Modals.TeamMember", b =>
@@ -300,6 +343,25 @@ namespace task_management_api.Migrations
                     b.Navigation("Team");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("task_management_api.Modals.ToDo", b =>
+                {
+                    b.HasOne("task_management_api.Modals.User", "Assignee")
+                        .WithMany("AssignedTasks")
+                        .HasForeignKey("AssignedTo")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("task_management_api.Modals.Project", "Project")
+                        .WithMany("Tasks")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Assignee");
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("task_management_api.Modals.Project", b =>

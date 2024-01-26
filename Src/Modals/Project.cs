@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace task_management_api.Modals;
 
 
-public class Project
+public class Project: BaseModel
 {
     [Key]
     [Column("id")]

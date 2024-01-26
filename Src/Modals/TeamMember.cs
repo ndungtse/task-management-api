@@ -1,6 +1,6 @@
 namespace task_management_api.Modals;
 
-public class TeamMember
+public class TeamMember: BaseModel
 {
     public Guid Id { get; set; }
     public string Role { get; set; }

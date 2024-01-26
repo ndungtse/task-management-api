@@ -1,6 +1,5 @@
 using task_management_api.Config;
 using task_management_api.Middlewares;
-using task_management_api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +8,7 @@ DbServicesConfig.Configure(builder);
 AuthConfig.Configure(builder);
 SwaggerConfig.Configure(builder);
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<JwtAuthenticationMiddleware>();
 
 var app = builder.Build();

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace task_management_api.Modals;
 
-public class ToDo
+public class ToDo: BaseModel
 {
     [Key]
     public Guid Id { get; set; }
