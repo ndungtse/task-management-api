@@ -32,7 +32,7 @@ public class TeamMemberController: ControllerBase
     }
     
     [HttpPost]
-    public async Task<IActionResult> CreateTeamMember([FromBody] CreateTeamMemberDto teamMember)
+    public async Task<IActionResult> CreateTeamMember([FromQuery] CreateTeamMemberDto teamMember)
     {
         try
         {

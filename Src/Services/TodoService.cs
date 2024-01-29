@@ -30,6 +30,7 @@ public class TodoService
             Description = createTodoDto.Description,
             Status = createTodoDto.Status,
             Tags = createTodoDto.Tags,
+            Priority = createTodoDto.Priority,
             CreatedBy = user
         };
         _taskDb.Tasks.Add(todo);

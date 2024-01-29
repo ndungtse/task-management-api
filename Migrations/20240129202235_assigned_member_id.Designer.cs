@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using task_management_api.Config;
@@ -12,9 +13,11 @@ using task_management_api.Config;
 namespace task_management_api.Migrations
 {
     [DbContext(typeof(TaskDbContext))]
-    partial class TaskDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240129202235_assigned_member_id")]
+    partial class assigned_member_id
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,7 +203,11 @@ namespace task_management_api.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<Guid?>("AssignedTo")
+                    b.Property<Guid>("AssignedTeamMemberId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("assignedTeamMemberId");
+
+                    b.Property<Guid>("AssignedTo")
                         .HasColumnType("uuid")
                         .HasColumnName("assignedTo");
 
@@ -221,7 +228,7 @@ namespace task_management_api.Migrations
                         .HasColumnType("text")
                         .HasColumnName("priority");
 
-                    b.Property<Guid?>("ProjectId")
+                    b.Property<Guid>("ProjectId")
                         .HasColumnType("uuid")
                         .HasColumnName("projectId");
 
@@ -245,6 +252,8 @@ namespace task_management_api.Migrations
                         .HasColumnName("updatedAt");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AssignedTeamMemberId");
 
                     b.HasIndex("AssignedTo");
 
@@ -363,10 +372,17 @@ namespace task_management_api.Migrations
 
             modelBuilder.Entity("task_management_api.Modals.ToDo", b =>
                 {
+                    b.HasOne("task_management_api.Modals.TeamMember", "AssignedTeamMember")
+                        .WithMany()
+                        .HasForeignKey("AssignedTeamMemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("task_management_api.Modals.User", "Assignee")
                         .WithMany("AssignedTasks")
                         .HasForeignKey("AssignedTo")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("task_management_api.Modals.User", "CreatedBy")
                         .WithMany()
@@ -377,7 +393,10 @@ namespace task_management_api.Migrations
                     b.HasOne("task_management_api.Modals.Project", "Project")
                         .WithMany("Tasks")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AssignedTeamMember");
 
                     b.Navigation("Assignee");
 

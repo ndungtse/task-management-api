@@ -41,6 +41,7 @@ public class TodoController: ControllerBase
         }
         catch (Exception ex)
         {
+            Console.WriteLine(ex);
             return BadRequest(new Response<string>(ex.Message, false));
         }
     }
@@ -73,6 +74,11 @@ public class TodoController: ControllerBase
         }
     }
     
+    /// <summary>
+    /// Deletes a specific TodoItem.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTodoById(Guid id)
     {

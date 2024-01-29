@@ -11,6 +11,6 @@ public class TeamMember: BaseModel
     public Guid UserId { get; set; } // Foreign key
     public User User { get; set; }
     public Team Team { get; set; }
-    [InverseProperty("AssignedTo")]
+    [NotMapped]
     public virtual HashSet<ToDo> AssignedTasks { get; set; }
 }

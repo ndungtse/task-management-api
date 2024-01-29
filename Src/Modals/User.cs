@@ -1,6 +1,7 @@
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace task_management_api.Modals;
@@ -23,7 +24,9 @@ public class User: BaseModel
     [Required]
     public string Password { get; set; } = null!;
 
+    [JsonIgnore]
     public virtual List<TeamMember> TeamMembers { get; set; }
+    [JsonIgnore]
     public virtual List<ToDo> AssignedTasks { get; set; }
     public List<Role> Roles { get; set; }
     

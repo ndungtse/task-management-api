@@ -17,5 +17,5 @@ public class Project: BaseModel
     public Guid TeamId { get; set; } // Foreign key
     public virtual List<ToDo> Tasks { get; set; }
     public Team Team { get; set; }
-    public virtual User CreatedBy { get; set; }
+    public User CreatedBy { get; set; }
 }
