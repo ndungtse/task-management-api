@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Swashbuckle.AspNetCore.Annotations;
 using task_management_api.Dtos.Requests;
 using task_management_api.Dtos.Responses;
 using task_management_api.Modals;
@@ -8,19 +9,26 @@ using task_management_api.Services;
 
 namespace task_management_api.Controllers;
 
-[ApiController]
 [Route("api/v1/auth")]
-public class AuthController: ControllerBase
+[SwaggerTag("Authentication operations"
+)]
+public class AuthController : ControllerBase
 {
     private readonly AuthService _authService;
     private readonly UserService _userService;
-    
+
     public AuthController(AuthService authService, UserService userService)
     {
         _authService = authService;
         _userService = userService;
     }
-    
+
+    [SwaggerOperation(
+        Summary = "Login",
+        Description = "Login",
+        OperationId = "auth.login",
+        Tags = new[] { "Auth" }
+    )]
     [AllowAnonymous]
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto loginDto)

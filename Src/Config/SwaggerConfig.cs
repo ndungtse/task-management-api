@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.OpenApi.Models;
 
 namespace task_management_api.Config;
@@ -10,13 +11,16 @@ public static class SwaggerConfig
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new() {Title = "Task Management Api", Version = "v1", Contact = new ()
+            c.SwaggerDoc("v1", new()
             {
-                Email = "ndungutsecharles103@gmail.com",
-                Name = "Ndungutse Charles",
-                Url = new Uri("https://ndungutsecharles.me")
-            } });
-            
+                Title = "Task Management Api", Version = "v1", Contact = new()
+                {
+                    Email = "ndungutsecharles103@gmail.com",
+                    Name = "Ndungutse Charles",
+                    Url = new Uri("https://ndungutsecharles.me")
+                }
+            });
+
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n " +
@@ -27,7 +31,7 @@ public static class SwaggerConfig
                 Type = SecuritySchemeType.ApiKey,
                 Scheme = "Bearer"
             });
-            
+
             c.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
                 {
@@ -35,16 +39,20 @@ public static class SwaggerConfig
                     {
                         Reference = new OpenApiReference
                         {
-                            Id="Bearer",
+                            Id = "Bearer",
                             Type = ReferenceType.SecurityScheme
                         }
                     },
-                    new string[]{}
+                    new string[] { }
                 }
             });
+
+            // using System.Reflection;
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+            c.EnableAnnotations();
         });
-        
+
         // Add Bearer token authentication
-        
     }
 }

@@ -29,7 +29,6 @@ public class TeamMemberService
             Role = teamMember.Role,
             TeamId = teamMember.TeamId,
             UserId = teamMember.UserId,
-            User = user
         };
         _taskDb.TeamMembers.Add(teamMemberToCreate);
         await _taskDb.SaveChangesAsync();

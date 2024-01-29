@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using task_management_api.Config;
 using task_management_api.Middlewares;
