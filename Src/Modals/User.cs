@@ -1,4 +1,6 @@
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace task_management_api.Modals;
@@ -19,11 +21,13 @@ public class User: BaseModel
     public string Email { get; set; } = null!;
 
     [Required]
-    public string Password { get; set; } = null!; 
-    public List<TeamMember> TeamMembers { get; set; }
-    public List<ToDo> AssignedTasks { get; set; }
+    public string Password { get; set; } = null!;
+
+    public virtual List<TeamMember> TeamMembers { get; set; }
+    public virtual List<ToDo> AssignedTasks { get; set; }
     public List<Role> Roles { get; set; }
     
+    // public TeamMember currentTeamMember { get; set; }
     public override string ToString()
     {
         return $"User: {Username}, {Email}";

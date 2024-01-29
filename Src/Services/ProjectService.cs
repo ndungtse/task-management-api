@@ -30,7 +30,8 @@ public class ProjectService
             Description = project.Description,
             StartDate = project.StartDate,
             EndDate = project.EndDate,
-            CreatedBy = user
+            CreatedBy = user,
+            TeamId = project.TeamId
         };
         _taskDb.Projects.Add(projectToCreate);
         await _taskDb.SaveChangesAsync();

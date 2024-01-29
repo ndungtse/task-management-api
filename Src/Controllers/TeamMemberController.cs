@@ -86,4 +86,31 @@ public class TeamMemberController: ControllerBase
             return BadRequest(new Response<string>(ex.Message, false));
         }
     }
+
+    [HttpPut("/assign_task/{id}")]
+    public async Task<IActionResult> AssignTaskToTeamMember(Guid id, [FromBody] Guid taskId)
+    {
+        try
+        {
+            var assignedTask = await _service.AssignTaskToTeamMember(id, taskId);
+            return Ok(new Response<ToDo>(assignedTask, "Assigned task successfully", true));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new Response<string>(e.Message, false));
+        }
+    }
+    [HttpPut("/assign_multiple_task/{id}")]
+    public async Task<IActionResult> AssignMultipleTaskToTeamMember(Guid id, [FromBody] List<Guid> taskIds)
+    {
+        try
+        {
+            var assignedTasks = await _service.AssignMultipleTasksMember(id, taskIds);
+            return Ok(new Response<List<ToDo>>(assignedTasks, "Assigned task successfully", true));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new Response<string>(e.Message, false));
+        }
+    }
 }

@@ -14,9 +14,8 @@ public class ToDo: BaseModel
     public string Priority { get; set; }
     public Guid ProjectId { get; set; } // Foreign key
     public Guid AssignedTo { get; set; } // Foreign key
-
-    // Navigation property for assigned user
     public User Assignee { get; set; }
+    public TeamMember AssignedTeamMember { get; set; }
     public Project Project { get; set; }
     public User CreatedBy { get; set; }
     

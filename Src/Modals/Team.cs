@@ -13,8 +13,8 @@ public class Team: BaseModel
     public User CreatedBy { get; set; } // UserId of the creator
 
     // Navigation property for team members
-    public List<TeamMember> TeamMembers { get; set; }
-
+    public virtual List<TeamMember> TeamMembers { get; set; }
     // Navigation property for projects
     public List<Project> Projects { get; set; }
+    
 }

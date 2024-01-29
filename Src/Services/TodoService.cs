@@ -73,4 +73,22 @@ public class TodoService
         await _taskDb.SaveChangesAsync();
     }
     
+    // Assign
+    public async Task<ToDo> AssignTodoToUser(Guid todoId, Guid userId)
+    {
+        var todo = await _taskDb.Tasks.FindAsync(todoId);
+        if (todo == null)
+        {
+            throw new Exception("Todo not found");
+        }
+        var user = await _taskDb.Users.FindAsync(userId);
+        if (user == null)
+        {
+            throw new Exception("User not found");
+        }
+        todo.AssignedTo = user.Id;
+        await _taskDb.SaveChangesAsync();
+        return todo;
+    }
+    
 }

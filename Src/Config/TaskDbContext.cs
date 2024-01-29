@@ -9,6 +9,7 @@ public class TaskDbContext: DbContext
 {
     public TaskDbContext(DbContextOptions<TaskDbContext> options) : base(options)
     {
+        
     }
     
     // DbSet for each entity
@@ -19,6 +20,10 @@ public class TaskDbContext: DbContext
     public DbSet<TeamMember> TeamMembers { get; set; }
     public DbSet<Role> Roles { get; set; }
     
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        // optionsBuilder.UseLazyLoadingProxies();
+    }
     // Many-to-Many relationship between User and Role
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -79,6 +84,7 @@ public class TaskDbContext: DbContext
             .WithMany(u => u.AssignedTasks)
             .HasForeignKey(t => t.AssignedTo)
             .OnDelete(DeleteBehavior.Restrict);
+        
     }
     
     public override int SaveChanges()
